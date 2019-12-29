@@ -43,6 +43,37 @@ articlesRouter
   .get((req, res) => {
     res.json(ArticlesService.serializeArticle(res.article))
   })
+  .delete((req, res, next) => {
+    ArticlesService.deleteArticle(
+      req.app.get('db'),
+      req.params.article_id
+    )
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { user_id, title, content } = req.body
+    const updateArticle = { user_id, title, content, date_modified: new Date() }
+
+    const numberOfValues = Object.values(updateArticle).filter(Boolean).length
+      if (numberOfValues === 0) {
+        return res.status(400).json({
+          error: { message: `Request body must contain at least one of the following: user_id, title and/or content` } 
+        })
+      }
+
+    ArticlesService.updateArticle(
+      req.app.get('db'),
+      req.params.article_id,
+      updateArticle
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
 
 articlesRouter
   .route('/:article_id/comments')
