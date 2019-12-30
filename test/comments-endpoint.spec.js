@@ -24,13 +24,14 @@ describe('Comments Endpoints', function() {
   afterEach('cleanup', () => helpers.truncateTables(db))
 
   describe(`POST /api/comments`, () => {
-    beforeEach('insert articles', () => {
+    beforeEach('insert articles', () => 
       helpers.seedTestDatabase(
         db,
         testUsers,
         testArticles,
+        testComments,
       )
-    })
+    )
     const newComment = {
       text: 'Test Comment',
       article_id: 'a3e47496-5f5d-4ecd-9d0b-222c464199ba',
@@ -41,8 +42,9 @@ describe('Comments Endpoints', function() {
       return supertest(app)
         .post('/api/comments')
         .send(newComment)
-        .expect(201)
-        .expect(newComment)
+        .then(res => {
+          expect(res.body.text).to.eql(newComment.text)
+        })
     })
   })
 })

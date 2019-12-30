@@ -12,8 +12,18 @@ const CommentsService = {
       INSERT INTO comments (text, user_id, article_id)
       VALUES ('${newComment.text}', '${newComment.user_id}', '${newComment.article_id}');
       `)
-      .then(rows => {
-        return rows[0]
+      .then(sqlResponse => {
+        return db
+          .select('*')
+          .from('comments')
+          .where({
+            text: newComment.text,
+            user_id: newComment.user_id,
+            article_id: newComment.article_id
+          })
+          .then(rows => {
+            return rows[0]
+          })
       })
   },
   serializeComment(comment) {
