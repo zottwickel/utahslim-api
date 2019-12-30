@@ -6,11 +6,11 @@ const GigsService = {
       .select('*')
       .from('gigs')
   },
-  getGigById(db, id) {
+  getGigById(db, gig_id) {
     return db
       .select('*')
       .from('gigs')
-      .where('id', id)
+      .where('gig_id', gig_id)
       .first()
   },
   insertGig(db, newGig) {
@@ -22,14 +22,14 @@ const GigsService = {
         return rows[0]
       })
   },
-  updateGig(db, id, newGig) {
+  updateGig(db, gig_id, newGig) {
     return db('gigs')
-      .where({ id })
+      .where({ gig_id })
       .update(newGig)
   },
-  deleteGig(db, id) {
+  deleteGig(db, gig_id) {
     return db('gigs')
-      .where({ id })
+      .where({ gig_id })
       .delete()
   },
   serializeGigs(gigs) {
@@ -37,7 +37,7 @@ const GigsService = {
   },
   serializeGig(gig) {
     return {
-      id: gig.id,
+      gig_id: gig.gig_id,
       description: xss(gig.description),
       gig_title: xss(gig.gig_title),
       location: xss(gig.location),

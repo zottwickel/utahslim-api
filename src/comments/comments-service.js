@@ -1,23 +1,24 @@
 const xss = require('xss')
 
 const CommentsService = {
-  deleteComment(db, id) {
+  deleteComment(db, comment_id) {
     return db('comments')
-      .where({ id })
+      .where({ comment_id })
       .delete()
   },
   insertComment(db, newComment) {
     return db
-      .insert(newComment)
-      .into('comments')
-      .returning('*')
+      .raw(`
+      INSERT INTO comments (text, user_id, article_id)
+      VALUES ('${newComment.text}', '${newComment.user_id}', '${newComment.article_id}');
+      `)
       .then(rows => {
         return rows[0]
       })
   },
   serializeComment(comment) {
     return {
-      id: comment.id,
+      comment_id: comment.comment_id,
       text: xss(comment.text),
       date_created: comment.date_created,
       user_id: comment.user_id,

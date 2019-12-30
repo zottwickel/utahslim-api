@@ -6,7 +6,7 @@ const ArticlesService = {
     return db
       .from('articles AS art')
       .select(
-        'art.id',
+        'art.article_id',
         'art.title',
         'art.content',
         'art.date_modified',
@@ -17,15 +17,15 @@ const ArticlesService = {
       )
       .leftJoin(
         'comments AS com',
-        'art.id',
+        'art.article_id',
         'com.article_id'
       )
       .leftJoin(
         'users AS usr',
         'art.user_id',
-        'usr.id'
+        'usr.user_id'
       )
-      .groupBy('art.id', 'usr.id')
+      .groupBy('art.article_id', 'usr.user_id')
   },
   insertArticle(db, newArticle) {
     return db
@@ -36,26 +36,26 @@ const ArticlesService = {
         return rows[0]
       })
   },
-  getArticleById(db, id) {
+  getArticleById(db, article_id) {
     return ArticlesService.getAllArticles(db)
-      .where('art.id', id)
+      .where('art.article_id', article_id)
       .first()
   },
-  deleteArticle(db, id) {
+  deleteArticle(db, article_id) {
     return db('articles')
-      .where({ id })
+      .where({ article_id })
       .delete()
   },
-  updateArticle(db, id, newFields) {
+  updateArticle(db, article_id, newFields) {
     return db('articles')
-      .where({ id })
+      .where({ article_id })
       .update(newFields)
   },
   getCommentsForArticle(db, article_id) {
     return db
       .from('comments AS com')
       .select(
-        'com.id',
+        'com.comment_id',
         'com.text',
         'com.date_created',
         ...userFields,
@@ -64,9 +64,9 @@ const ArticlesService = {
       .leftJoin(
         'users AS usr',
         'com.user_id',
-        'usr.id'
+        'usr.user_id'
       )
-      .groupBy('com.id', 'usr.id')
+      .groupBy('com.comment_id', 'usr.user_id')
   },
   serializeArticles(articles) {
     return articles.map(this.serializeArticle)
@@ -75,7 +75,7 @@ const ArticlesService = {
     const articleTree = new Treeize()
     const articleData = articleTree.grow([ article ]).getData()[0]
     return {
-      id: articleData.id,
+      article_id: articleData.article_id,
       title: xss(articleData.title),
       content: xss(articleData.content),
       date_modified: articleData.date_modified,
@@ -92,7 +92,7 @@ const ArticlesService = {
     const commentData = commentTree.grow([ comment ]).getData()[0]
 
     return {
-      id: commentData.id,
+      comment_id: commentData.comment_id,
       article_id: commentData.article_id,
       text: xss(commentData.text),
       date_created: commentData.date_created,
@@ -102,7 +102,7 @@ const ArticlesService = {
 }
 
 const userFields = [
-  'usr.id AS user:id',
+  'usr.user_id AS user:user_id',
   'usr.user_name AS user:user_name',
   'usr.full_name AS user:full_name',
   'usr.email AS user:email',

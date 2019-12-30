@@ -26,7 +26,7 @@ commentsRouter
       .then(comment => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${comment.id}`))
+          .location(path.posix.join(req.originalUrl, `/${comment.comment_id}`))
           .json(CommentsService.serializeComment(comment))
       })
       .catch(next)

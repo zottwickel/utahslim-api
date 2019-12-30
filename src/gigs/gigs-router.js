@@ -32,7 +32,7 @@ gigsRouter
       .then(gig => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${gig.id}`))
+          .location(path.posix.join(req.originalUrl, `/${gig.gig_id}`))
           .json(GigsService.serializeGig(gig))
       })
       .catch(next)      

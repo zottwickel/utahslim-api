@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Comments Endpoints', function() {
+describe('Comments Endpoints', function() {
   let db
 
   const testUsers = helpers.makeUsersArray()
@@ -29,13 +29,12 @@ describe.only('Comments Endpoints', function() {
         db,
         testUsers,
         testArticles,
-        testComments,
       )
     })
     const newComment = {
       text: 'Test Comment',
-      user_id: testUsers[0].id,
-      article_id: testArticles[0].id,
+      article_id: 'a3e47496-5f5d-4ecd-9d0b-222c464199ba',
+      user_id: '955f6c01-a9f6-44bb-a7fd-75d1933f922e',
     }
 
     it('Responds 201 and the new comment', () => {

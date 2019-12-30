@@ -65,7 +65,7 @@ describe('Articles Endpoints', function () {
         testComments,
       )
       return supertest(app)
-        .get(`/api/articles/${testArticles[0].id}`)
+        .get(`/api/articles/${testArticles[0].article_id}`)
         .expect(200)
         .expect(expectedArticle)
     })
@@ -78,7 +78,7 @@ describe('Articles Endpoints', function () {
       content: 'Test content.',
       date_created: new Date().toISOString(),
       date_modified: new Date().toISOString(),
-      user_id: testUsers[0].id
+      user_id: testUsers[0].user_id
     }
 
     beforeEach('insert articles', () => 
@@ -108,7 +108,7 @@ describe('Articles Endpoints', function () {
       content: 'Test content.',
       date_created: new Date().toISOString(),
       date_modified: new Date().toISOString(),
-      user_id: testUsers[0].id
+      user_id: testUsers[0].user_id
     }
 
     beforeEach('insert articles', () => 
@@ -122,7 +122,7 @@ describe('Articles Endpoints', function () {
 
     it('Responds 204 on successful update', () => {
       return supertest(app)
-        .patch(`/api/articles/${testArticles[0].id}`)
+        .patch(`/api/articles/${testArticles[0].article_id}`)
         .send(newArticle)
         .expect(204)
     })
@@ -140,7 +140,7 @@ describe('Articles Endpoints', function () {
 
     it('Responds with 204', () => {
       return supertest(app)
-        .delete(`/api/articles/${testArticles[0].id}`)
+        .delete(`/api/articles/${testArticles[0].article_id}`)
         .expect(204)
     })
   })

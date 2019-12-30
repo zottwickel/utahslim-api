@@ -65,7 +65,7 @@ describe('Gigs Endpoints', function() {
 
     it('Responds with 204', () => {
       return supertest(app)
-        .delete(`/api/gigs/${testGigs[0].id}`)
+        .delete(`/api/gigs/${testGigs[0].gig_id}`)
         .expect(204)
     })
   })

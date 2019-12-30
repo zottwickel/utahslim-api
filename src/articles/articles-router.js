@@ -32,7 +32,7 @@ articlesRouter
       .then(article => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${article.id}`))
+          .location(path.posix.join(req.originalUrl, `/${article.article_id}`))
           .json(ArticlesService.serializeArticle(article))
       })
       .catch(next)    
@@ -65,7 +65,7 @@ articlesRouter
         })
       }
       const responseArticle = ArticlesService.serializeArticle(res.article)
-      if (responseArticle.user.id !== updateArticle.user_id) {
+      if (responseArticle.user.user_id !== updateArticle.user_id) {
         return res.status(400).json({
           error: { message: `You cannot update someone else's article` }
         })
