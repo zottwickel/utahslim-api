@@ -4,8 +4,7 @@ TRUNCATE
   articles,
   gigs,
   users,
-  comments
-  RESTART IDENTITY CASCADE;
+  comments;
 
 INSERT INTO users (id, user_name, full_name, email, password)
 VALUES

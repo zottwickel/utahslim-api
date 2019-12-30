@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const ArticlesService = require('./articles-service')
 
 const articlesRouter = express.Router()
@@ -61,6 +62,12 @@ articlesRouter
       if (numberOfValues === 0) {
         return res.status(400).json({
           error: { message: `Request body must contain at least one of the following: user_id, title and/or content` } 
+        })
+      }
+      const responseArticle = ArticlesService.serializeArticle(res.article)
+      if (responseArticle.user.id !== updateArticle.user_id) {
+        return res.status(400).json({
+          error: { message: `You cannot update someone else's article` }
         })
       }
 
