@@ -11,7 +11,6 @@ commentsRouter
   .post(requireAuth, jsonParser, (req, res, next) => {
     const { text, article_id } = req.body
     const user_id = req.user.user_id
-    console.log(user_id)
     const newComment = { text, user_id, article_id }
 
     for (const [key, value] of Object.entries(newComment)) {
