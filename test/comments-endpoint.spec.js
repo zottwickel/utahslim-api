@@ -47,4 +47,21 @@ describe('Comments Endpoints', function() {
         })
     })
   })
+
+  describe(`DELETE /api/comments/:comment_id`, () => {
+    beforeEach('insert articles', () => 
+      helpers.seedTestDatabase(
+        db,
+        testUsers,
+        testArticles,
+        testComments,
+      )
+    )
+
+    it('Responds with 204', () => {
+      return supertest(app)
+        .delete(`/api/comments/${testComments[0].comment_id}`)
+        .expect(204)
+    })
+  })
 })

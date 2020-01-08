@@ -8,22 +8,11 @@ const CommentsService = {
   },
   insertComment(db, newComment) {
     return db
-      .raw(`
-      INSERT INTO comments (text, user_id, article_id)
-      VALUES ('${newComment.text}', '${newComment.user_id}', '${newComment.article_id}');
-      `)
-      .then(sqlResponse => {
-        return db
-          .select('*')
-          .from('comments')
-          .where({
-            text: newComment.text,
-            user_id: newComment.user_id,
-            article_id: newComment.article_id
-          })
-          .then(rows => {
-            return rows[0]
-          })
+    .insert(newComment)
+    .into('comments')
+    .returning('*')
+      .then(rows => {
+        return rows[0]
       })
   },
   serializeComment(comment) {

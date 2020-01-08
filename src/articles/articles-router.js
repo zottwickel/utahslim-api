@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const ArticlesService = require('./articles-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const articlesRouter = express.Router()
 const jsonParser = express.json()
@@ -14,8 +15,10 @@ articlesRouter
       })
       .catch(next)
   })
-  .post(jsonParser, (req, res, next) => {
-    const { user_id, title, content } = req.body
+  .post(requireAuth, jsonParser, (req, res, next) => {
+    const { title, content } = req.body
+    const user_id = req.user.user_id
+
     const newArticle = { user_id, title, content }
 
     for (const [key, value] of Object.entries(newArticle)) {
@@ -54,8 +57,10 @@ articlesRouter
       })
       .catch(next)
   })
-  .patch(jsonParser, (req, res, next) => {
-    const { user_id, title, content } = req.body
+  .patch(requireAuth, jsonParser, (req, res, next) => {
+    const { title, content } = req.body
+    const user_id = user.user_id
+
     const updateArticle = { user_id, title, content, date_modified: new Date() }
 
     const numberOfValues = Object.values(updateArticle).filter(Boolean).length

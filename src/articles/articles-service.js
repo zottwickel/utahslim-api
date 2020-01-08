@@ -26,6 +26,7 @@ const ArticlesService = {
         'usr.user_id'
       )
       .groupBy('art.article_id', 'usr.user_id')
+      .orderBy('art.date_modified', 'decs')
   },
   insertArticle(db, newArticle) {
     return db
@@ -67,6 +68,7 @@ const ArticlesService = {
         'usr.user_id'
       )
       .groupBy('com.comment_id', 'usr.user_id')
+      .orderBy('com.date_created', 'asc')
   },
   serializeArticles(articles) {
     return articles.map(this.serializeArticle)
