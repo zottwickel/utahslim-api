@@ -26,7 +26,7 @@ const ArticlesService = {
         'usr.user_id'
       )
       .groupBy('art.article_id', 'usr.user_id')
-      .orderBy('art.date_modified', 'asc')
+      .orderBy('art.date_modified', 'desc')
   },
   insertArticle(db, newArticle) {
     return db
