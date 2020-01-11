@@ -5,6 +5,7 @@ const GigsService = {
     return db
       .select('*')
       .from('gigs')
+      .orderBy('gig_date', 'asc')
   },
   getGigById(db, gig_id) {
     return db
